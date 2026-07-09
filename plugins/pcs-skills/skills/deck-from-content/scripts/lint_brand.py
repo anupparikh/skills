@@ -880,19 +880,30 @@ def main(argv=None):
         print(f"error: {e}", file=sys.stderr)
         return 2
 
+    # deadspace is ADVISORY, not a brand violation: the engine no longer auto-tiles
+    # content into boxes to satisfy a fill target, so an under-filled slide is a design
+    # note the author may accept (e.g. a deliberately airy bullets slide), not a fail.
+    hard = [d for d in defects if d.check != "deadspace"]
+    advisories = [d for d in defects if d.check == "deadspace"]
     if args.json:
-        out = {"pass": not defects, "deck": args.deck, "slides": len(prs.slides),
-               "defects": [d._asdict() for d in defects]}
+        out = {"pass": not hard, "deck": args.deck, "slides": len(prs.slides),
+               "defects": [d._asdict() for d in hard],
+               "advisories": [d._asdict() for d in advisories]}
         print(json.dumps(out, indent=2))
     else:
-        print(f"{args.deck}: {len(prs.slides)} slides, {len(defects)} defect(s)")
-        for d in defects:
+        print(f"{args.deck}: {len(prs.slides)} slides, {len(hard)} defect(s), "
+              f"{len(advisories)} advisory(ies)")
+        for d in hard:
             loc = f"slide {d.slide}" if d.slide else "deck"
             shape = f" (shape: {d.shape})" if d.shape else ""
             print(f"  {loc}: [{d.check}] {d.detail}{shape}")
-        if not defects:
-            print("  PASS — no brand defects found.")
-    return 0 if not defects else 1
+        for d in advisories:
+            loc = f"slide {d.slide}" if d.slide else "deck"
+            print(f"  {loc}: [advisory:{d.check}] {d.detail}")
+        if not hard:
+            tail = " (deadspace advisories above are non-blocking)" if advisories else ""
+            print("  PASS — no brand defects found." + tail)
+    return 0 if not hard else 1
 
 
 if __name__ == "__main__":

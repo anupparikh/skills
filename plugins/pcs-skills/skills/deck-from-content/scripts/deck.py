@@ -61,18 +61,17 @@ class Theme:
 
 
 # Per-brand, non-paint knobs (see references/brand-manifest.md).
-# title_sizes: "content" is the one size every light content slide's title renders at —
-# native-layout methods (bullets, steps, ...) and drawn archetypes (compose, problem_flow,
-# ...) alike — so a mixed deck has matching titles (v0.2 fix: they used to differ by
-# archetype, and native placeholders rendered at the template's ~40pt default next to
-# 24pt drawn titles). A per-archetype key (e.g. "compose": 24) still wins if a brand
+# title_sizes: now an AUTO-FIT CAP, not a fixed size. Every title renders at the per-kind
+# cap and steps down (never below _title_pt's floor) only as far as needed to stay on one
+# line within its placeholder — so short titles get the full cap and long titles shrink to
+# fit. A per-archetype key (e.g. "compose": 30) still caps that archetype if a brand
 # manifest sets one. "dark" (corner titles on dark canvases) and "statement" (hero line)
-# are different visual levels and keep their own keys.
+# are different visual levels and keep their own caps.
 DEFAULT_MANIFEST = {
     "dark_canvas_layout": "Blank",
     "logo": {"dark_position": "top-right", "dark_size_in": 0.38, "keepout_in": 1.2},
     "footer_text": None,
-    "title_sizes": {"content": 28, "dark": 22, "statement": 32},
+    "title_sizes": {"content": 40, "dark": 34, "statement": 44},
     "colors": {
         "muted": "#C8D8EC",
         "page_number": "#9AA5B1",
@@ -210,17 +209,23 @@ class Deck:
                 for r in p.runs:
                     r.font.bold = True
 
+    TITLE_FLOOR = 20   # auto-fit never shrinks a title below this
+
     def _title_pt(self, kind, text=None, width_in=12.33, fit=True):
-        """Controlled title size for archetype `kind`: the manifest's per-archetype
-        key wins, else the shared 'content' size. With fit=True, a title too long
-        for one line at that size steps down (to 18pt min) — archetypes place
-        content assuming a one-line title, so a wrapped title collides with it."""
-        size = self.title_sizes.get(kind) or self.title_sizes.get("content")
-        if size and text and fit:
-            # ~0.5em average glyph width for the bold display face — an estimate,
-            # not shaping; good enough to keep titles off a second line.
-            while size > 18 and len(text) * 0.5 * size / 72.0 > width_in:
-                size -= 2
+        """Auto-fit the title. `title_sizes[kind]` (or 'content') is treated as a CAP,
+        not a fixed size: the title renders at the cap and steps down — never below
+        TITLE_FLOOR — only as far as needed to stay on one line within the placeholder
+        width. So a short title gets the full cap size and a long one shrinks to fit,
+        instead of every title rendering at one small fixed size. Archetypes place
+        content assuming a one-line title, so keeping it to one line is the goal."""
+        cap = self.title_sizes.get(kind) or self.title_sizes.get("content") or 40
+        if not (text and fit):
+            return cap
+        size = cap
+        # ~0.5em average glyph width for the bold display face — an estimate, not
+        # shaping; good enough to keep titles off a second line.
+        while size > self.TITLE_FLOOR and len(text) * 0.5 * size / 72.0 > width_in:
+            size -= 1
         return size
 
     def _title(self, s, title, kind="content", bold=False, fit=True):
