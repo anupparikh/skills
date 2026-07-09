@@ -6,16 +6,16 @@ Private plugin marketplace for Claude Code / Claude Cowork.
 
 ```
 /plugin marketplace add anupparikh/skills
-/plugin install deck-from-content@anupparikh-skills
+/plugin install pcs-skills@anupparikh-skills
 ```
 
 Requires GitHub access to this repo (private).
 
 ## Plugins
 
-| Plugin | What it does |
-|---|---|
-| `deck-from-content` | Content in, on-brand PowerPoint deck out. Renders slides on the PCS branded template; agent supplies text and image paths only. |
+| Plugin | Skills | What it does |
+|---|---|---|
+| `pcs-skills` | `deck-from-content` | Content in, on-brand PowerPoint deck out. Renders slides on the PCS branded template; agent supplies text and image paths only. |
 
 ## Adding a plugin
 

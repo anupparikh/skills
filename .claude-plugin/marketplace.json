@@ -6,10 +6,10 @@
   },
   "plugins": [
     {
-      "name": "deck-from-content",
-      "source": "./plugins/deck-from-content",
+      "name": "pcs-skills",
+      "source": "./plugins/pcs-skills",
       "version": "0.2.0",
-      "description": "Content in, on-brand PowerPoint deck out. Renders slides on the PCS native branded template; agent supplies text and image paths only."
+      "description": "PCS Skills — on-brand deck generation for Precision Cell Systems (deck-from-content) and future PCS tools."
     }
   ]
 }
