@@ -2,5 +2,12 @@
   "name": "pcs-skills",
   "version": "0.2.0",
   "description": "PCS Skills — on-brand deck generation for Precision Cell Systems (deck-from-content) and future PCS tools.",
-  "author": "anupparikh"
+  "author": {
+    "name": "Anup Parikh",
+    "email": "anup.parikh@gmail.com"
+  },
+  "homepage": "https://github.com/anupparikh/skills",
+  "repository": "https://github.com/anupparikh/skills",
+  "license": "UNLICENSED",
+  "keywords": ["powerpoint", "deck", "slides", "branding", "pcs"]
 }

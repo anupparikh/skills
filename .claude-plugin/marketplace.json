@@ -1,5 +1,6 @@
 {
   "name": "anupparikh-skills",
+  "description": "Private marketplace of Claude Code / Cowork plugins by Anup Parikh, starting with PCS deck-generation tooling.",
   "owner": {
     "name": "Anup Parikh",
     "email": "anup.parikh@gmail.com"
