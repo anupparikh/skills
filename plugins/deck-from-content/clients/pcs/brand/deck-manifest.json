@@ -7,11 +7,9 @@
   },
   "footer_text": "\u00a9 2026 Precision Cell Systems \u00b7 For research use only",
   "title_sizes": {
-    "problem_flow": 30,
-    "study_intro": 25,
+    "content": 28,
     "dark": 22,
-    "statement": 32,
-    "compose": 24
+    "statement": 32
   },
   "colors": {
     "muted": "#C8D8EC",

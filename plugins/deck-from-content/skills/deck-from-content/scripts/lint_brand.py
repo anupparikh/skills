@@ -45,6 +45,11 @@ DEADSPACE_FILL_MAX = 0.55            # flag when covered fraction of the content
                                      # back to 0.60 to make a deck "cleaner" — that flags the ground truth.
 DEADSPACE_CARD_AREA_CAP = 0.35       # non-text filled shape counts as a "card" only below this frac of content-region area;
                                      # bigger = a full-bleed background rect, not real content
+DEADSPACE_TEXT_FORWARD_MAX = 0.30    # relaxed fill threshold for text-forward slides (a native body
+                                     # placeholder carrying real prose — bullets/agenda archetypes).
+                                     # Their ink-area fill is structurally low (text lines, not tiles),
+                                     # so the 0.55 gate made them unwinnable (v0.1 field report #7);
+                                     # 0.30 still catches a 2-bullet slide rattling in an empty frame.
 FONT_DIRS = ["/System/Library/Fonts", "/System/Library/Fonts/Supplemental",
              "/Library/Fonts", os.path.expanduser("~/Library/Fonts")]
 DEFAULT_PCS_TEMPLATE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "clients", "pcs", "brand", "precision-cell-systems-deck-template.pptx")
@@ -491,7 +496,13 @@ def _deadspace_bboxes(slide, region_area):
     A non-text filled rectangle (e.g. a `stat` tile's separate background shape) earns
     full-box credit ONLY when real text ink sits on it — otherwise it is an empty or
     decorative tile and gets none. Without this, an empty filler box counts as
-    "content" and a visibly blank slide passes the fill check (Codex finding, 2026-07-03)."""
+    "content" and a visibly blank slide passes the fill check (Codex finding, 2026-07-03).
+
+    A text-bearing shape that is ITSELF filled (deck.py's compose `card` is one rounded
+    rectangle containing its text) is a deliberate on-brand panel: it earns its full
+    declared box, not just its text band — ink-only credit read slides full of visible
+    cards as "empty" (v0.1 field report #9). The full-bleed-background area cap still
+    applies."""
     text_boxes, pics, fills = [], [], []
     for sh in iter_shapes(slide.shapes):
         if None in (sh.left, sh.top, sh.width, sh.height):
@@ -499,7 +510,12 @@ def _deadspace_bboxes(slide, region_area):
         is_pic = _stype(sh) == MSO_SHAPE_TYPE.PICTURE
         has_txt = getattr(sh, "has_text_frame", False) and sh.text_frame.text.strip()
         if has_txt:
-            text_boxes.append(_ink_bbox(sh))
+            bb = _bbox_in(sh)
+            if (_has_visible_fill(sh)
+                    and (bb[2] - bb[0]) * (bb[3] - bb[1]) <= DEADSPACE_CARD_AREA_CAP * region_area):
+                text_boxes.append(bb)          # filled card with text: full-box credit
+            else:
+                text_boxes.append(_ink_bbox(sh))
         elif is_pic:
             pics.append(_bbox_in(sh))
         elif _has_visible_fill(sh):
@@ -569,6 +585,22 @@ def _band_label(rc, gw, gh):
     return f"{vband}-{hband}"
 
 
+def _is_text_forward(slide):
+    """True when a native body placeholder (idx != 0, i.e. not the title) carries real
+    prose — the bullets/agenda archetypes. These slides are text, not tiles; they get
+    the relaxed DEADSPACE_TEXT_FORWARD_MAX threshold."""
+    for sh in slide.shapes:
+        if not getattr(sh, "is_placeholder", False):
+            continue
+        try:
+            idx = sh.placeholder_format.idx
+        except Exception:
+            continue
+        if idx and getattr(sh, "has_text_frame", False) and len(sh.text_frame.text.strip()) >= 80:
+            return True
+    return False
+
+
 def check_deadspace(prs):
     """Flag slides whose content leaves a large under-filled content region — see
     module comment above for the fill-ratio model and calibration. Cover slides
@@ -581,7 +613,8 @@ def check_deadspace(prs):
             continue
         boxes = _deadspace_bboxes(slide, region_area)
         fill_ratio, empty_frac, rc = _deadspace_grid_metrics(boxes, W)
-        if fill_ratio < DEADSPACE_FILL_MAX:
+        limit = DEADSPACE_TEXT_FORWARD_MAX if _is_text_forward(slide) else DEADSPACE_FILL_MAX
+        if fill_ratio < limit:
             where = _band_label(rc, DEADSPACE_GRID_W, DEADSPACE_GRID_H) if rc else "diffuse"
             defects.append(Defect(i, "deadspace",
                 f"content fills only {fill_ratio:.0%} of the slide; largest empty region "
@@ -752,6 +785,18 @@ def _build_deadspace_decks(template_path):
     # boxes; the check must NOT be gamed by them (Codex finding, 2026-07-03) -> must flag.
     _tile(prs.slides.add_slide(blank), with_text=False)
 
+    # slide 5: two tall filled cards whose text lives INSIDE the same shape (how
+    # deck.py compose `card` blocks are built) -> the card's full box is deliberate
+    # ink and must earn full credit, not just its top text band (field report #9).
+    cards = prs.slides.add_slide(blank)
+    for k in range(2):
+        box = cards.shapes.add_shape(MSO_SHAPE.RECTANGLE,
+                                     Emu(I(0.6 + k * 6.4)), Emu(I(DEADSPACE_TOP + 0.2)),
+                                     Emu(I(5.9)), Emu(I(4.0)))
+        box.fill.solid(); box.fill.fore_color.rgb = RGBColor.from_string("E8EEF6")
+        box.line.fill.background()
+        box.text_frame.text = "CARD HEADING"
+
     return prs
 
 
@@ -783,12 +828,15 @@ def run_selfcheck():
         sparse_flagged = any(d.slide == 2 for d in ds_defects)
         tiled_quiet = not any(d.slide == 3 for d in ds_defects)
         empty_tiles_flagged = any(d.slide == 4 for d in ds_defects)
+        cards_quiet = not any(d.slide == 5 for d in ds_defects)
         print(f"  [{'PASS' if sparse_flagged else 'FAIL'}] deadspace flags a sparse top-left-only slide")
         all_ok &= sparse_flagged
         print(f"  [{'PASS' if tiled_quiet else 'FAIL'}] deadspace stays quiet on a tiled slide with real text")
         all_ok &= tiled_quiet
         print(f"  [{'PASS' if empty_tiles_flagged else 'FAIL'}] deadspace flags empty filler tiles (not gamed)")
         all_ok &= empty_tiles_flagged
+        print(f"  [{'PASS' if cards_quiet else 'FAIL'}] deadspace credits filled text-bearing cards at full box")
+        all_ok &= cards_quiet
         return bool(all_ok)
     finally:
         os.unlink(path)

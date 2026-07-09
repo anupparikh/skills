@@ -19,6 +19,22 @@ Content in, on-brand deck out. You write Python that calls `deck.py`; the engine
 look (palette, type, borders, spacing, logo, footer — all read from the template's theme and
 the native layouts). **You never specify a colour, font, size, or coordinate.**
 
+**How you drive it:** this skill is a **Python API**, not a slash command. Write a short
+script that imports `deck.py` (or run the resolver, below) — don't wait to "invoke" the
+skill. The scripts live beside this file in `scripts/`.
+
+## Before you build (do this first)
+
+1. **Find the brand kit.** Look for `clients/<brand>/brand/` — it holds the branded
+   `*-template.pptx`, `deck-manifest.json`, and `brand_config.json`. Use that template;
+   never invent a palette or pick a generic one.
+2. **Read `brand_config.json` before writing a word of copy.** It carries the canonical
+   product names and a `voice_and_tone` section with hard-bans. Getting names right on
+   turn one (e.g. Moxi, GO II, Keyto, Singulator 200+) is far cheaper than a correction pass.
+3. **Install the brand fonts** (`fonts/install_fonts.sh`) — see the QA caveat at the
+   bottom. Previews are untrustworthy without them.
+4. **Pull figures from the client's own source decks** where possible.
+
 ```python
 from deck import Deck
 d = Deck(footer="© 2026 Precision Cell Systems · For research use only")   # defaults to the PCS template
@@ -117,6 +133,13 @@ python3 scripts/lint_brand.py --selfcheck   # proves each check still fires
 Fix every defect and re-render until it exits 0. A dead-space defect means a slide doesn't fill —
 give its content more room / larger type / more blocks; overflow means the opposite.
 
+**Dead-space on text-forward slides is advisory, not a hard fail.** The check uses a relaxed
+threshold for native text slides (`bullets`, `agenda`) and credits filled `card`/`compose`
+boxes at their full area, so the semantic archetypes are reachable. If a text-forward slide
+still trips it and reads well, treat it as advisory — don't pad it into a denser grid just to
+satisfy the metric. `steps` now distributes its rows across the full content band (fills a
+few-step slide, shrinks a many-step one to clear the footer), so it should pass on its own.
+
 **2. Design critic (soft qualities the linter can't see).** Render to images and score with a
 fresh-eyes subagent against `references/design-critic.md` (balance, whitespace, hierarchy,
 readability + named defects). Linter-clean ≠ well-designed — both signals are needed.
@@ -150,7 +173,24 @@ To make dark content a genuine native layout, add dark-content layouts to `brand
 `scripts/assets/skeleton.pptx`. (Footer uniformity across archetypes was fixed in D-034 — every
 non-cover slide now stamps footer + page-number from one shared base.)
 
-## Fonts must be installed
+## Fonts must be installed (QA caveat)
 
-The deck names the brand's fonts (Merriweather, Franklin Gothic). If they aren't installed on the
-authoring machine, PowerPoint substitutes silently and the deck drifts off-brand.
+The deck names the brand's fonts (Merriweather display, Franklin Gothic body). If they aren't
+installed on the authoring machine, PowerPoint/LibreOffice substitute silently — the deck
+drifts off-brand **and every rendered preview lies about text fit and overflow** (the
+substitute has different metrics), so you can't trust visual QA for exactly the failure modes
+that matter. Install before building or reviewing:
+
+```bash
+bash fonts/install_fonts.sh
+```
+
+Merriweather (OFL) ships in `fonts/` and installs directly. **Franklin Gothic is proprietary
+and is not bundled** — install your licensed copy, or regenerate the template in
+`brand-deck-template` to use the open substitute **Libre Franklin** (the engine reads fonts
+from the template theme, so no code change here). See `fonts/README.md`.
+
+The engine also guards fit mechanically so a missing font can't silently ship overflow:
+`bullets`/`two_column`/`comparison` size body text to fit the placeholder, titles auto-fit to
+one line, and `steps` scales rows to the content band. The linter's overflow/collision checks
+are the backstop.

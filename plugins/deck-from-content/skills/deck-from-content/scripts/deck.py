@@ -60,14 +60,19 @@ class Theme:
         self.body = mn.group(1) if mn else "Franklin Gothic Book"
 
 
-# Per-brand, non-paint knobs (see references/brand-manifest.md). These are the values
-# deck.py hardcoded before D-034 — kept here as the fallback so a caller that never
-# passes manifest= gets byte-identical output to before this existed.
+# Per-brand, non-paint knobs (see references/brand-manifest.md).
+# title_sizes: "content" is the one size every light content slide's title renders at —
+# native-layout methods (bullets, steps, ...) and drawn archetypes (compose, problem_flow,
+# ...) alike — so a mixed deck has matching titles (v0.2 fix: they used to differ by
+# archetype, and native placeholders rendered at the template's ~40pt default next to
+# 24pt drawn titles). A per-archetype key (e.g. "compose": 24) still wins if a brand
+# manifest sets one. "dark" (corner titles on dark canvases) and "statement" (hero line)
+# are different visual levels and keep their own keys.
 DEFAULT_MANIFEST = {
     "dark_canvas_layout": "Blank",
     "logo": {"dark_position": "top-right", "dark_size_in": 0.38, "keepout_in": 1.2},
     "footer_text": None,
-    "title_sizes": {"problem_flow": 30, "study_intro": 25, "dark": 22, "statement": 32, "compose": 24},
+    "title_sizes": {"content": 28, "dark": 22, "statement": 32},
     "colors": {
         "muted": "#C8D8EC",
         "page_number": "#9AA5B1",
@@ -205,6 +210,56 @@ class Deck:
                 for r in p.runs:
                     r.font.bold = True
 
+    def _title_pt(self, kind, text=None, width_in=12.33, fit=True):
+        """Controlled title size for archetype `kind`: the manifest's per-archetype
+        key wins, else the shared 'content' size. With fit=True, a title too long
+        for one line at that size steps down (to 18pt min) — archetypes place
+        content assuming a one-line title, so a wrapped title collides with it."""
+        size = self.title_sizes.get(kind) or self.title_sizes.get("content")
+        if size and text and fit:
+            # ~0.5em average glyph width for the bold display face — an estimate,
+            # not shaping; good enough to keep titles off a second line.
+            while size > 18 and len(text) * 0.5 * size / 72.0 > width_in:
+                size -= 2
+        return size
+
+    def _title(self, s, title, kind="content", bold=False, fit=True):
+        """One title system across archetypes: every light content slide — native
+        layout or drawn — sizes its title from the manifest, so titles match."""
+        ph = self._ph(s, 0)
+        self._set_text(ph, title, bold=bold)
+        w_in = (ph.width / EMU_IN) if ph.width else 12.33
+        size = self._title_pt(kind, title, w_in, fit=fit)
+        if size:
+            for p in ph.text_frame.paragraphs:
+                for r in p.runs:
+                    r.font.size = Pt(size)
+        return ph
+
+    def _fit_body(self, ph, size=None):
+        """Explicitly size body text to fit its placeholder. The template's body
+        default is large and never shrinks, so a long list silently overflowed the
+        slide. size= wins; else the largest step size whose estimated wrapped height
+        fits. Sub-levels render 3pt/level smaller (2 levels max)."""
+        import math
+        tf = ph.text_frame
+        w_in = max(1.0, ph.width / EMU_IN - 0.2)
+        h_in = max(1.0, ph.height / EMU_IN - 0.15)
+        cand = size
+        for cand in ((size,) if size else (20, 18, 16, 15, 14, 13, 12)):
+            total = 0.0
+            for p in tf.paragraphs:
+                t = "".join(r.text for r in p.runs)
+                eff = cand - 3 * min(p.level or 0, 2)
+                cpl = max(8, int(w_in / (0.5 * eff / 72.0)))
+                total += max(1, math.ceil(len(t) / cpl)) * 1.35 * eff / 72.0
+            if total <= h_in:
+                break
+        for p in tf.paragraphs:
+            eff = cand - 3 * min(p.level or 0, 2)
+            for r in p.runs:
+                r.font.size = Pt(eff)
+
     def _set_bullets(self, ph, items):
         """items: list of str, or (text, level) tuples, or {'text','level','bold'} dicts."""
         tf = ph.text_frame
@@ -260,35 +315,42 @@ class Deck:
             self._set_text(self._ph(s, 1), kicker)
         return s
 
-    def bullets(self, title, points):
+    def bullets(self, title, points, size=None):
         s = self._new_slide("Title and Content")
-        self._set_text(self._ph(s, 0), title)
-        self._set_bullets(self._ph(s, 1), points)
+        self._title(s, title)
+        ph = self._ph(s, 1)
+        self._set_bullets(ph, points)
+        self._fit_body(ph, size)
         return s
 
     def statement(self, title):
-        return self._light_title(title, size=self.title_sizes.get("statement", 32))
+        # a statement IS the slide's content — it may wrap, so no one-line fit
+        return self._light_title(title, kind="statement", fit=False)
 
     def two_column(self, title, left, right):
         s = self._new_slide("Two Content")
-        self._set_text(self._ph(s, 0), title)
-        self._set_bullets(self._ph(s, 1), left)
-        self._set_bullets(self._ph(s, 2), right)
+        self._title(s, title)
+        for idx, items in ((1, left), (2, right)):
+            ph = self._ph(s, idx)
+            self._set_bullets(ph, items)
+            self._fit_body(ph)
         return s
 
     def comparison(self, title, a_label, a_points, b_label, b_points):
         s = self._new_slide("Comparison")
-        self._set_text(self._ph(s, 0), title)
+        self._title(s, title)
         self._set_text(self._ph(s, 1), a_label, bold=True)
-        self._set_bullets(self._ph(s, 2), a_points)
         self._set_text(self._ph(s, 3), b_label, bold=True)
-        self._set_bullets(self._ph(s, 4), b_points)
+        for idx, items in ((2, a_points), (4, b_points)):
+            ph = self._ph(s, idx)
+            self._set_bullets(ph, items)
+            self._fit_body(ph)
         return s
 
     def figure(self, title, image, caption=None):
         """Big image with title + caption beneath — native Picture with Caption."""
         s = self._new_slide("Picture with Caption")
-        self._set_text(self._ph(s, 0), title, bold=True)
+        self._title(s, title, bold=True)
         pic_ph = self._ph(s, 1)
         try:
             pic_ph.insert_picture(image)
@@ -301,7 +363,7 @@ class Deck:
     def content_with_figure(self, title, image, points):
         """Caption/bullets beside a figure — native Content with Caption."""
         s = self._new_slide("Content with Caption")
-        self._set_text(self._ph(s, 0), title, bold=True)
+        self._title(s, title, bold=True)
         obj = self._ph(s, 1)
         self._place_image(s, image, obj.left, obj.top, obj.width, obj.height)
         self._set_bullets(self._ph(s, 2), points)
@@ -311,7 +373,7 @@ class Deck:
     def stat_cards(self, title, cards):
         """cards: list of (value, label). Navy tiles with big accent number + label."""
         s = self._new_slide("Title Only")
-        self._set_text(self._ph(s, 0), title)
+        self._title(s, title)
         n = len(cards)
         M = Emu(int(0.5 * EMU_IN)); gap = Emu(int(0.3 * EMU_IN))
         top = Emu(int(2.1 * EMU_IN)); ch = Emu(int(2.6 * EMU_IN))
@@ -340,34 +402,15 @@ class Deck:
         r2.font.name = self.theme.body
 
     def steps(self, title, steps):
-        """steps: list of (head, desc). Numbered circles + head + description rows."""
+        """steps: list of (head, desc). Numbered rows filling the content band above
+        the footer. Rows distribute across the whole band (via _vertical_steps), so
+        few steps fill it instead of clumping at the top (was flagged as dead-space)
+        and many steps shrink to fit instead of overrunning the footer (field report
+        #5). Each row is a tint card, so the slide reads filled."""
         s = self._new_slide("Title Only")
-        self._set_text(self._ph(s, 0), title)
-        M = int(0.5 * EMU_IN); top = int(2.1 * EMU_IN)
-        row_h = int(0.95 * EMU_IN); dia = int(0.5 * EMU_IN)
-        y = top
-        for i, (head, desc) in enumerate(steps, 1):
-            c = s.shapes.add_shape(MSO_SHAPE.OVAL, M, y, dia, dia)
-            c.fill.solid(); c.fill.fore_color.rgb = _hex(self.theme.primary)
-            c.line.fill.background()
-            ctf = c.text_frame; ctf.vertical_anchor = MSO_ANCHOR.MIDDLE
-            cp = ctf.paragraphs[0]; cp.alignment = PP_ALIGN.CENTER
-            cr = cp.add_run(); cr.text = str(i)
-            cr.font.size = Pt(20); cr.font.bold = True
-            cr.font.color.rgb = _hex(self.theme.white); cr.font.name = self.theme.body
-            tx = s.shapes.add_textbox(M + dia + int(0.25 * EMU_IN), y,
-                                      self.W - 2 * M - dia - int(0.25 * EMU_IN), row_h)
-            ttf = tx.text_frame; ttf.word_wrap = True
-            hp = ttf.paragraphs[0]
-            hr = hp.add_run(); hr.text = head
-            hr.font.size = Pt(15); hr.font.bold = True
-            hr.font.color.rgb = _hex(self.theme.navy); hr.font.name = self.theme.body
-            if desc:
-                dp = ttf.add_paragraph()
-                dr = dp.add_run(); dr.text = desc
-                dr.font.size = Pt(12); dr.font.color.rgb = _hex(self.theme.slate)
-                dr.font.name = self.theme.body
-            y += row_h + int(0.15 * EMU_IN)
+        self._title(s, title)
+        # content band: below the title, above the footer band (~7.04in)
+        self._vertical_steps(s, I(0.5), I(2.0), self.W - I(1.0), I(4.8), steps)
         return s
 
     # ==== low-level primitives ===========================================
@@ -436,19 +479,15 @@ class Deck:
             else:
                 tw = min(max_tw, self.W - I(0.5) - keep - tx)
             tf = self._tb(s, tx, I(0.34), tw, I(1.15), anchor=MSO_ANCHOR.TOP)
-            self._run(tf.paragraphs[0], title, self.title_sizes.get("dark", 22),
+            self._run(tf.paragraphs[0], title,
+                      self._title_pt("dark", title, tw / EMU_IN) or 22,
                       self.theme.white, bold=True, font=self.theme.display)
         self._footer(s, dark=True)
         return s
 
-    def _light_title(self, title, size=None):
+    def _light_title(self, title, kind="content", fit=True):
         s = self._new_slide("Title Only")
-        ph = self._ph(s, 0)
-        self._set_text(ph, title)
-        if size:
-            for p in ph.text_frame.paragraphs:
-                for r in p.runs:
-                    r.font.size = Pt(size)
+        self._title(s, title, kind, fit=fit)
         return s
 
     def _no_bullet(self, p):
@@ -677,7 +716,7 @@ class Deck:
 
     def problem_flow(self, title, body, cards, answer=None, caption=None, eyebrow=None):
         """Title + framing paragraph + horizontal step-flow + colored answer bar."""
-        s = self._light_title(title, size=self.title_sizes.get("problem_flow", 30))
+        s = self._light_title(title, kind="problem_flow")
         if eyebrow:
             self._eyebrow(s, eyebrow)
         tf = self._tb(s, I(0.5), I(1.68), I(12.33), I(0.9))
@@ -695,7 +734,7 @@ class Deck:
                     challenge_points=None, eyebrow=None):
         """White study-intro: title, light-blue citation card, METHOD chips, challenge bullets.
         citation: (paper_title, meta) ; method: list of chip labels."""
-        s = self._light_title(title, size=self.title_sizes.get("study_intro", 25))
+        s = self._light_title(title, kind="study_intro")
         if eyebrow:
             self._eyebrow(s, eyebrow)
         # distribute over the full frame (citation high, challenge in the lower half)
@@ -729,7 +768,7 @@ class Deck:
         if figure is not None and not os.path.isabs(figure) and getattr(self, "_img_dir", None):
             figure = os.path.join(self._img_dir, figure)
         if light:
-            s = self._light_title(title, size=self.title_sizes.get("study_intro", 25))
+            s = self._light_title(title, kind="study_intro")
             if eyebrow:
                 self._eyebrow(s, eyebrow)
         else:
@@ -776,7 +815,7 @@ class Deck:
         is a theme key for the header band ('slate'|'primary'|'navy'); defaults walk
         slate→primary→navy so the first (worst) option reads neutral and the last most
         branded — the progression the approved decks use."""
-        s = self._light_title(title, size=self.title_sizes.get("compose", 24))
+        s = self._light_title(title, kind="compose")
         if eyebrow:
             self._eyebrow(s, eyebrow)
         n = max(len(columns), 1)
@@ -829,7 +868,7 @@ class Deck:
         """Approved "What single-cell labs need" archetype: a green-check requirement
         list on white. items: list of strings. Rows tile the frame so a 4-8 item list
         fills vertically."""
-        s = self._light_title(title, size=self.title_sizes.get("compose", 24))
+        s = self._light_title(title, kind="compose")
         if eyebrow:
             self._eyebrow(s, eyebrow)
         y0 = 1.7
@@ -857,7 +896,7 @@ class Deck:
         band + a huge number + a caption + a note; a footnote spans below. left/right:
         dict {label, value, caption?, note?, accent?}. Left reads as the win (primary),
         right as the cost (slate) unless accents are given."""
-        s = self._light_title(title, size=self.title_sizes.get("compose", 24))
+        s = self._light_title(title, kind="compose")
         if eyebrow:
             self._eyebrow(s, eyebrow)
         y, ch, hdr = 1.72, 4.35, 0.5
@@ -944,7 +983,7 @@ class Deck:
         if dark:
             s = self._dark_base(title)
         else:
-            s = self._light_title(title, size=self.title_sizes.get("compose", 24)) if title \
+            s = self._light_title(title, kind="compose") if title \
                 else self._new_slide("Title Only")
         if eyebrow:
             self._eyebrow(s, eyebrow)
