@@ -8,6 +8,7 @@
     {
       "name": "deck-from-content",
       "source": "./plugins/deck-from-content",
+      "version": "0.2.0",
       "description": "Content in, on-brand PowerPoint deck out. Renders slides on the PCS native branded template; agent supplies text and image paths only."
     }
   ]
