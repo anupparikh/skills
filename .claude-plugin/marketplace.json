@@ -8,6 +8,7 @@
   "plugins": [
     {
       "name": "pcs-skills",
+      "displayName": "PCS Skills",
       "source": "./plugins/pcs-skills",
       "version": "0.2.0",
       "description": "PCS Skills — on-brand deck generation for Precision Cell Systems (deck-from-content) and future PCS tools."
