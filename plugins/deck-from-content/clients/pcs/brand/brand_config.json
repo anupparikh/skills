@@ -1,0 +1,570 @@
+{
+ "meta": {
+  "client": "Precision Cell Systems (PCS)",
+  "version": "2.0",
+  "compiled": "2026-06-26",
+  "canonical_source": "PCS's own branded deliverables in clients/pcs/Content Templates (14 print-format HTML, 16 PDF, 3 PPTX flyers) + PCS positioning audits + the Cypher Lab house writing-standards style guide. No Hivemind brand guide exists for PCS yet; this config is reverse-derived from shipped artifacts.",
+  "source_pages": [
+   "Content Templates/user-manuals/Singulator 200+ System ... Guide_v14.html",
+   "Content Templates/application-notes/Moxi-Go-II-CART-App Note_v14.html",
+   "Content Templates/application-notes/pcs-app-note-singulator-plant-nuclei-2026-03-20.html",
+   "Content Templates/protocols/pcs-protocol-plant-nuclei-2026-03-20.html",
+   "Content Templates/brochures/pcs-moxi-product-brochure-final.html",
+   "Content Templates/quick-start-guides/singulator-200-plus-quickstart-guide_v3.html",
+   "Content Templates/guides/tissue_dissociation_guide.html (web-format outlier)",
+   "Content Templates/flyers/PCS_Flyer_Landscape_v2.pptx",
+   "Content Templates/flyers/PCS Sales Flyer_Singulator v1.pptx",
+   "Content Templates/brochures/Brochure_PCS_Moxi Family.pdf",
+   "clients/pcs/00-triage-card.md",
+   "clients/pcs/sources-and-candidates.md",
+   "clients/pcs/positioning-audits/pcs-singulator-positioning-vs-transcripts_2026-06-15.md",
+   "clients/pcs/positioning-audits/pcs-moxi-go-ii-positioning-vs-transcripts_2026-06-16.md",
+   "pipeline-skills/writing-standards/scientific-writing-style-guide.md"
+  ],
+  "guide_origin": "mixed",
+  "note": "PALETTE STANDARD (decided 2026-06-26 by Anup): the single go-forward brand palette is the SALES/MARKETING flyer palette (see colors._standard) \u2014 brighter, stat-driven, the system PCS uses when selling. The technical-documentation palette is demoted to colors._variants.documentation_system (docs only); the Moxi dark palette is an explicit sub-brand; the tissue-guide web palette is deprecated. The flyer source defined no neutral ramp or semantic status, so the ramp's border/surface steps are DERIVED and the status colours are CARRIED OVER from PCS's doc system (both tagged). Primary #0056B7 and the Franklin Gothic Medium / Merriweather pairing are verified across HTML + PPTX + the logo SVG. NOTE: the component, hero, and archetype specs below were captured from the DOCUMENTATION templates \u2014 when applying them to marketing pieces, recolour navy -> #002961 and use the teal/orange accents. No values invented; remaining unknowns are flagged in _gaps."
+ },
+ "brand_proposition": {
+  "category": "automated tissue dissociation",
+  "positioning_mode": "Mode I \u2014 Competitive (head-to-head vs gentleMACS + manual dissociation), per 00-triage-card.md, LOCKED 2026-06-15",
+  "one_liner": "The only automated tissue dissociation system that processes FFPE archival samples and reaches fresh or frozen tissue from 2 mg input, with an enzyme-free protocol and consistent output.",
+  "primary_alternatives": [
+   "Miltenyi gentleMACS / gentleMACS Octo",
+   "manual dissociation (mortar and pestle, enzymatic dissociation kits)"
+  ],
+  "buyers": [
+   "core and shared-resource facility directors (single-cell and flow cores)",
+   "translational oncology and cancer-center labs",
+   "single-cell atlas and genomics researchers (10x Chromium workflow owners)"
+  ],
+  "key_differentiators": [
+   {
+    "claim": "Only fully automated FFPE-to-nuclei workflow on the market; gentleMACS cannot process FFPE at all.",
+    "_source": "singulator-positioning-audit 2026-06-15: Aaron Goldman FFPE VOC ('I can't process FFPE in the Miltenyi machine ... It can't do it'); confirmed team crown jewel, Anup 5/19 positioning session"
+   },
+   {
+    "claim": "Roughly 10x lower fresh/frozen input minimum than gentleMACS: 2 mg vs ~20 mg.",
+    "_source": "sources-and-candidates.md [verified: WebFetch + KB, 2026-06-15]; singulator-audit Anup 5/19 ('20 mg -> 2 mg ... an order of magnitude less')"
+   },
+   {
+    "claim": "Enzyme-free protocol with 96% cell viability (cells track only).",
+    "_source": "sources-and-candidates.md [verified: WebFetch + KB, 2026-06-15]"
+   },
+   {
+    "claim": "50+ tissue types across species, including plant and insect tissues where gentleMACS has no validated protocol.",
+    "_source": "sources-and-candidates.md [verified 2026-06-15]; singulator-audit Kentucky VOC (plants, mosquito salivary glands, frog)"
+   },
+   {
+    "claim": "Cells or nuclei from one box; locked-modality competitors (e.g. Cytiva: cells only) cannot serve both.",
+    "_source": "singulator-audit 2026-06-15 / 2026-06-02 marketing transcript ('Cytiva, you can only do cells')"
+   },
+   {
+    "claim": "Open-reagent platform: users supply their own reagents, vs Miltenyi's proprietary ~12-item consumable stack.",
+    "_source": "singulator-audit 2026-06-15: Kentucky VOC; Waldi 2026-04-03"
+   },
+   {
+    "claim": "Throughput: nuclei ~7 min, cells 25-60 min; up to 16 samples/hour and 96/day with nuclei fixation and batching across instruments.",
+    "_source": "sources-and-candidates.md [verified 2026-06-15]; singulator-audit Anup 5/19"
+   },
+   {
+    "claim": "Honest throughput constraint owned: two samples per run, mitigated by nuclei fixation/storage for batching and by running multiple instruments under one operator.",
+    "_source": "singulator-audit 2026-06-15: Yale and Kentucky VOC; team decision to own the constraint (Anup 5/19)"
+   }
+  ]
+ },
+ "logo": {
+  "variations": [
+   {
+    "name": "full-color (blue on light)",
+    "file": "refs/pcs-logo-full-color.png",
+    "use": "white / light backgrounds"
+   },
+   {
+    "name": "reversed (white)",
+    "file": "refs/pcs-logo-reversed-white.png",
+    "use": "navy / dark backgrounds"
+   },
+   {
+    "name": "vector master (white variant)",
+    "file": "refs/pcs-logo.svg"
+   }
+  ],
+  "file": "refs/pcs-logo-full-color.png",
+  "mark_description": "Circle containing a 3-bar histogram crossed by baseline + left vertical axis \u2014 reads as a cytometry / cell-count readout. Geometric, flat, no gradients.",
+  "wordmark": "'Precision' / 'Cell Systems' stacked flush-left beside the mark; wordmark font Franklin Gothic Medium ~500 weight.",
+  "lockup": "horizontal only (mark left, wordmark right), ~4.2:1; no stacked variant found; full lockup used even at ~0.5in.",
+  "primary_color": "#0056B7",
+  "clear_space": "MISSING \u2014 no clear-space rule in any source. Ask PCS: what minimum clear space (in logo-heights or px) must surround the lockup? (tracked in _gaps)",
+  "min_size": "MISSING \u2014 no minimum reproduction size sourced. Ask PCS for the print + on-screen minimum. (tracked in _gaps)",
+  "donts": [
+   "MISSING \u2014 no official logo misuse rules sourced; no black/monochrome variant found in any deliverable. Ask PCS whether a mono variant is sanctioned and what the don'ts are."
+  ]
+ },
+ "colors": {
+  "_standard": "Sales/marketing palette (the PCS flyer system) \u2014 selected by Anup on 2026-06-26 as the single go-forward brand standard. The technical-documentation palette is demoted to colors._variants.documentation_system; Moxi dark is an explicit sub-brand; the tissue-guide web palette is deprecated.",
+  "primary": "#0056B7",
+  "primary_dark": "#004AAC",
+  "navy": "#002961",
+  "sky_blue": "#00BAFF",
+  "light_tint": "#D9F1FD",
+  "white": "#FFFFFF",
+  "accent_teal": "#20C997",
+  "accent_orange": "#FD7E14",
+  "neutrals": {
+   "ink": "#000000",
+   "text_secondary": "#555555",
+   "text_muted": "#777777",
+   "border": "#CCCCCC",
+   "surface": "#F4F6F8"
+  },
+  "_neutrals_note": "ink / text_secondary / text_muted observed in the flyers; border + surface DERIVED to complete the ramp (the flyer source defined no neutral ramp).",
+  "status": {
+   "_note": "Semantic status CARRIED OVER from PCS's existing documentation system (already in use across the technical docs) \u2014 not re-invented; the flyer source defined no status colors.",
+   "info": "#0056B7",
+   "info_bg": "#E6F7FF",
+   "success": "#26A74A",
+   "success_bg": "#F0FAF3",
+   "warning": "#FFC107",
+   "warning_bg": "#FFF8E1",
+   "error": "#DC3445",
+   "error_bg": "#FFF3F0"
+  },
+  "usage": {
+   "teal": "positive stats / metric callouts (e.g. '81% faster')",
+   "orange": "attention / accent highlights",
+   "sky_blue": "icon accents, small highlights",
+   "navy": "deep section backgrounds, dark text-on-color",
+   "primary_dark": "footers, heading bars, secondary/hover actions"
+  },
+  "_variants": {
+   "documentation_system": {
+    "_note": "DEMOTED 2026-06-26 \u2014 technical/regulatory docs only, NOT the marketing standard.",
+    "navy": "#001A4D",
+    "navy_dark": "#000510",
+    "warm_neutrals": [
+     "#F9F8F6",
+     "#EDECEA",
+     "#C4C1BC",
+     "#84817B",
+     "#6B6966",
+     "#52504B",
+     "#36342F"
+    ],
+    "decorative_gradient": "linear-gradient(90deg, #9D00FF, #00D4AA)"
+   },
+   "moxi_subbrand": {
+    "_note": "Moxi product-line sub-brand (dark editorial) \u2014 allowed for Moxi pieces, not the master brand.",
+    "bg": "#0D1B2A",
+    "navy": "#1B263B",
+    "cyan": "#00B4D8",
+    "cyan_light": "#90E0EF",
+    "amber": "#F59E0B"
+   },
+   "web_outlier": {
+    "_note": "DEPRECATED \u2014 migrate tissue_dissociation_guide.html to the standard.",
+    "blues": [
+     "#003E7E",
+     "#0056D2",
+     "#0091EA"
+    ],
+    "font": "Libre Franklin"
+   }
+  }
+ },
+ "color_strategy": {
+  "primary_action": "#0056B7 is the primary brand + action color (links, primary CTAs, key headings); #004AAC is its darker companion for footers, heading bars, and secondary/hover actions.",
+  "depth": "#002961 navy anchors deep section backgrounds and dark text-on-color; white + #D9F1FD light tint carry the bright, open marketing feel (no dark page backgrounds in the master brand).",
+  "accents": "Teal #20C997 marks positive stats and metric callouts; orange #FD7E14 is the attention accent; sky #00BAFF lifts icons and small highlights. Use accents sparingly \u2014 roughly one stat colour per view.",
+  "neutrals": "Cool neutral text ramp: ink #000000 body, #555555 secondary, #777777 muted, #CCCCCC dividers, #F4F6F8 surface.",
+  "status_colors": "Semantic status (info/success/warning/error) reuses PCS's established doc-system colours inside callouts only \u2014 never decorative."
+ },
+ "typography": {
+  "primary_font_family": "'Franklin Gothic Medium', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+  "display_serif_family": "'Merriweather', Georgia, serif",
+  "body_family": "'Franklin Gothic Medium', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+  "web_fallback_family": "'Libre Franklin', 'Franklin Gothic Book', Arial, sans-serif",
+  "google_fonts_import": "family=Merriweather:wght@400;700&display=swap",
+  "role_split": "Merriweather (serif) is reserved for DISPLAY/hero titles and section headings; Franklin Gothic Medium is the UI/heading sans; Franklin Gothic Book is the body weight in the flyers. (PPTX confirms Merriweather is display-only at 36pt, not paragraph body.)",
+  "heading_scale": {
+   "cover_display": {
+    "size": "48-54px",
+    "weight": 700,
+    "font": "Merriweather",
+    "line_height": 1.1,
+    "color": "#FFFFFF"
+   },
+   "h1_app_note": {
+    "size": "26pt",
+    "weight": 700,
+    "font": "Merriweather",
+    "line_height": 1.2
+   },
+   "h2_section": {
+    "size": "17-18pt/px",
+    "weight": 700,
+    "font": "Merriweather",
+    "line_height": 1.25,
+    "color": "#001A4D"
+   },
+   "chapter_title": {
+    "size": "26px",
+    "weight": 700,
+    "font": "Merriweather",
+    "color": "#FFFFFF"
+   },
+   "h3_subsection": {
+    "size": "12-14pt",
+    "weight": "500-600",
+    "font": "Franklin Gothic Medium",
+    "color": "#001A4D",
+    "accent": "border-left 3px #0056B7"
+   },
+   "h4": {
+    "size": "11-12px",
+    "weight": 500,
+    "font": "Franklin Gothic Medium",
+    "color": "#001A4D"
+   }
+  },
+  "body": {
+   "size": "9.5-10pt",
+   "line_height": "1.45-1.6",
+   "color": "#36342F"
+  },
+  "caption": {
+   "size": "8pt",
+   "line_height": "1.3-1.55",
+   "color": "#6B6966"
+  },
+  "eyebrow_label": {
+   "size": "10-13px",
+   "letter_spacing": "3.5-4px",
+   "transform": "uppercase",
+   "color_on_dark": "#00A3FF",
+   "_note": "observed in templates but eyebrow/kicker copy is hard-banned in voice_and_tone \u2014 treat as a label/doc-type tag, not editorial eyebrow"
+  },
+  "footer": {
+   "size": "7-8px",
+   "color": "#84817B"
+  }
+ },
+ "spacing": {
+  "page": {
+   "width": "8.5in",
+   "height": "11in"
+  },
+  "margins": {
+   "app_notes_x": "0.75in",
+   "manuals_quickstarts_x": "0.5in",
+   "app_notes_top": "0.65in",
+   "app_notes_bottom": "0.55in"
+  },
+  "content_max_width": {
+   "manuals_running_text": "5.6in",
+   "app_notes_body": "5in"
+  },
+  "common_padding_px": [
+   4,
+   5,
+   7,
+   8,
+   9,
+   10,
+   12,
+   14,
+   16,
+   20,
+   22,
+   24,
+   26,
+   28,
+   40
+  ],
+  "gaps": {
+   "figure_rows": "12-16px",
+   "two_col_grid": "24px",
+   "step_list_left_pad": "38-42px"
+  }
+ },
+ "borders_radii": {
+  "_note": "Flat/rectilinear system: radius 2-8px throughout; round forms only on step circles, accent bars, image frames.",
+  "step_circle": "50% (25-26px dia, bg #0056B7, white, 700, 11px)",
+  "callout_box": "3-4px",
+  "accent_bar": "2-3px",
+  "section_heading_underline": "2px",
+  "cover_image_frame": "6-8px",
+  "callout_left_borders": {
+   "note": "4px #0056B7",
+   "warning": "4px #FFC107",
+   "caution": "4px #DC3445",
+   "tip": "5px #26A74A"
+  },
+  "abstract_box_left_border": "6px #0056B7",
+  "table_cell_border": "1px #C4C1BC",
+  "table_last_row_border": "2px #001A4D",
+  "header_divider": "3px #0056B7 (quickstarts) / 1px #C4C1BC (manuals)"
+ },
+ "components": {
+  "cta_box": {
+   "background": "#F9F8F6",
+   "border": "1px solid #C4C1BC",
+   "border_left": "4px solid #0056B7",
+   "border_radius": "0",
+   "padding": "24px 28px",
+   "heading": "Merriweather 13pt 700 #001A4D",
+   "body": "9pt #36342F",
+   "link": "#0056B7 no-underline",
+   "_note": "Print system has no interactive button; CTA box is a bordered panel with a URL link."
+  },
+  "callout_note": {
+   "bg": "#E6F7FF",
+   "border_left": "4px solid #0056B7",
+   "label_color": "#0056B7",
+   "radius": "3-4px",
+   "font_size": "9-9.5pt"
+  },
+  "callout_warning": {
+   "bg": "#FFF8E1",
+   "border_left": "4px solid #FFC107",
+   "label_color": "#9A6700"
+  },
+  "callout_caution": {
+   "bg": "#FFF3F0",
+   "border_left": "4px solid #DC3445",
+   "label_color": "#DC3445"
+  },
+  "callout_tip": {
+   "bg": "#F0FAF3",
+   "border_left": "5px solid #26A74A",
+   "label_color": "#26A74A"
+  },
+  "table": {
+   "thead_bg": "#001A4D",
+   "thead_text": "#FFFFFF",
+   "thead_size": "8-9pt",
+   "tbody_border_bottom": "1px solid #C4C1BC",
+   "zebra_even": "#F9F8F6",
+   "last_row_border": "2px solid #001A4D",
+   "body_size": "8.5-9.5pt"
+  },
+  "step_circle": {
+   "size": "25-26px",
+   "background": "#0056B7",
+   "color": "#FFFFFF",
+   "weight": 700,
+   "size_px": "11px",
+   "radius": "50%"
+  },
+  "metrics_kpi_banner": {
+   "container_border": "1px solid #C4C1BC",
+   "value": "Merriweather 18pt 700 #001A4D",
+   "unit": "10pt #0056B7",
+   "label": "7.5pt uppercase 0.8px #6B6966"
+  },
+  "abstract_overview_box": {
+   "bg": "#E6F7FF or #F9F8F6",
+   "border_left": "6px solid #0056B7",
+   "heading": "Merriweather 12-14pt 700 #0056B7",
+   "body": "9pt #52504B"
+  },
+  "section_heading_underline": {
+   "width": "60-70px",
+   "height": "3-4px",
+   "background": "linear-gradient(90deg, #9D00FF, #00D4AA)",
+   "radius": "2px"
+  },
+  "figure_caption": {
+   "size": "8pt",
+   "color": "#6B6966",
+   "figure_label": "weight 600 #001A4D"
+  },
+  "button_web_only": {
+   "_note": "tissue_dissociation_guide.html web outlier only \u2014 not canonical",
+   "primary": "linear-gradient(135deg, #0056D2, #003B8F) white, 14px 32px, radius 6px"
+  }
+ },
+ "hero_patterns": {
+  "pattern_a_full_navy": {
+   "use": "brochures, quickstarts, user manuals, installation guides",
+   "cover_bg": "linear-gradient(135deg, #001A4D, #000510)",
+   "text": "#FFFFFF",
+   "accent_bar": "260px x 4px purple->teal, radius 3px",
+   "product_name": "Merriweather 48px"
+  },
+  "pattern_b_split_hero_white": {
+   "use": "application notes",
+   "hero_bg": "linear-gradient(135deg, #001A4D, #000510)",
+   "hero_bottom_border": "4px purple->teal",
+   "eyebrow_color": "#00A3FF",
+   "h1": "26pt",
+   "content_bg": "#FFFFFF"
+  },
+  "pattern_c_side_bar": {
+   "use": "protocols",
+   "left_bar": "0.5in linear-gradient(180deg, #0056B7, #001A4D)",
+   "body_bg": "#FFFFFF",
+   "h1": "Merriweather 22pt #001A4D",
+   "badge": "#0056B7 pill, white uppercase"
+  },
+  "chapter_hero_interior": {
+   "use": "manuals, installation guides",
+   "bg": "linear-gradient(135deg, #001A4D, #000510)",
+   "bottom_border": "4px purple->teal",
+   "chapter_number": "#00A3FF",
+   "title": "Merriweather 26px #FFFFFF"
+  }
+ },
+ "page_section_archetypes": [
+  "cover_page",
+  "legal_regulatory_front_matter",
+  "table_of_contents",
+  "chapter_section_opener",
+  "overview_abstract_box",
+  "numbered_procedure_step_list",
+  "materials_parts_list_table",
+  "data_results_table",
+  "specification_comparison_matrix",
+  "callout_box_note_warning_caution_tip",
+  "figure_with_caption",
+  "key_metrics_kpi_banner",
+  "references_section",
+  "cta_plus_ruo_block",
+  "running_header_footer"
+ ],
+ "presentation": {
+  "_source": "Reverse-derived 2026-06-26 from the two finished PCS overview decks (SingulatorOverview_2026.pptx + MoxiOverview_2026.pptx). This is the DECK-specific design system \u2014 its own established look, distinct from the marketing-flyer palette that governs email/social/web. The bridge skill (skills/brand-pptx-template) renders to THIS profile. Both source decks ship on the default Office theme with the design hard-coded per shape; this profile captures that design so generated decks match.",
+  "canvas": "16:9",
+  "fonts": {
+   "display": "Merriweather",
+   "body": "Franklin Gothic Book",
+   "body_alt": "Franklin Gothic Medium"
+  },
+  "palette": {
+   "navy": "#001A4D",
+   "navy_card": "#16335E",
+   "primary": "#0056B7",
+   "accent_bright": "#00A3FF",
+   "white": "#FFFFFF",
+   "body_slate": "#4A5568",
+   "on_navy_muted": "#C8D8EC",
+   "tint_box": "#E8EEF6",
+   "tint_border": "#C8D8EC",
+   "green": "#26A74A",
+   "red": "#DC3445",
+   "warn": "#FD7E14",
+   "page_number": "#9AA5B1",
+   "warn_tint": "#FBEAEC"
+  },
+  "rules": {
+   "headlines": "Merriweather bold, left-aligned, sentence case with a closing period. Navy #001A4D on light slides, white on navy slides.",
+   "body": "Franklin Gothic Book; slate #4A5568 on light, white or #C8D8EC on navy; ~11-13pt.",
+   "accent": "#00A3FF for stat numbers, title-slide subtitle, and small functional labels; green #26A74A for checks / positive; red #DC3445 for problem emphasis ONLY.",
+   "chrome": "Reversed logo top-left; page number bottom-right on light slides; thin left-edge accent bar on content/card slides; title-slide footer = presenter | date.",
+   "devices": "punchline bar (navy rule + centered navy tagline), stat cards (navy bg + #00A3FF numbers), product/comparison cards (header bar + bullets + BEST FOR), process flow (tint/navy step boxes + chevrons), recommendation/customer callout (tinted box + small colored label)."
+  },
+  "slide_archetypes": [
+   "title",
+   "section_divider",
+   "content_bullets",
+   "content_with_image",
+   "punchline",
+   "checklist_navy",
+   "stat_cards",
+   "comparison_cards",
+   "process_flow",
+   "quote_callout",
+   "closing"
+  ]
+ },
+ "imagery": {
+  "_status": "missing",
+  "_needs": "image/video art-direction (style anchors, the 8-component prompt baseline, palette-as-mood, negative list, aspect defaults)",
+  "_ask": "PCS has no art-directed imagery system today \u2014 its deliverables use literal instrument product photos, flat brand-blue UI icons, and functional data figures only (no curated photographic/illustrative aesthetic, no abstract-biology art). Does PCS want a codified AI-imagery recipe (style anchors + negatives), or should the brand stay product-photo + data-figure only? If the former, supply 1-3 reference aesthetics and a 'never look like this' list."
+ },
+ "voice_and_tone": {
+  "headline_style": "Direct, claim-led assertions with subject and verb front-loaded. Specific numbers or verified contrasts over generic benefit language ('2 mg in, viable cells out' and '50+ tissue types, one protocol' beat 'streamline your workflow'). Second person allowed on landing pages and email. No eyebrow/kicker text above any headline. No em-dashes in headlines. 'Not just X, but Y' is not a default structure (a single tight contrast is fine where the contrast is the whole point).",
+  "body_style": "Default marketing register is practical: state the capability concretely (real workflow, real number), tie it to a felt consequence, give an action where the format calls for it. Use methods-section register (formal, impersonal, past tense for completed results) for datasheets and application notes. Active voice by default; passive OK when the subject is unknown/irrelevant. Present tense for capabilities/established facts, past tense for completed results. No first person in POV/thought-leadership unless a named byline is requested. 15-20 words/sentence in technical exposition; clauses under ~30 words. Oxford comma. SI units with a space (5 \u00b5L, 37 \u00b0C, 10 mM); no space before % or \u00b0 (95%, 90\u00b0). Numerals for measured quantities; spell out only at sentence start or restructure. Ranges with en-dash or 'to' (15-20 min, 10-50 mg). Match claim strength to evidence: 'demonstrates' (proven), 'suggests' (consistent-but-inconclusive), 'may/could' (untested); never strip a calibrated hedge.",
+  "cta_verbs": [
+   "Request",
+   "Download",
+   "Schedule",
+   "Compare",
+   "Evaluate",
+   "View",
+   "Read",
+   "Contact",
+   "Test",
+   "Get"
+  ],
+  "hard_bans": [
+   "no eyebrow or kicker text \u2014 any short label positioned above a headline is prohibited (standing agency rule)",
+   "em-dashes \u2014 replace with a period, comma, colon, or parentheses; restructure if needed",
+   "'not just X, but Y' and its family ('It is not X. It is Y.', 'X is not a Y, it is a Z', 'It is not about A, it is about B') as a default reframe move \u2014 a single tight contrast where the contrast is the whole point is allowed",
+   "formulaic rule-of-three (tricolon) as a habit \u2014 vary list lengths",
+   "manufactured specificity \u2014 invented atmospheric detail ('at 7 a.m. on a Tuesday')",
+   "naming concepts as a flourish \u2014 'Call it the X', capitalizing a Named Concept for effect",
+   "stacked mechanical anaphora ('the same X, the same Y, the same Z'; 'Your A... Your B... Your C...') \u2014 break after two",
+   "self-reference / narrating the document ('in this article we will', 'this guide shows')",
+   "delve into",
+   "harness",
+   "leverage (figurative)",
+   "unlock",
+   "showcase",
+   "robust",
+   "cutting-edge",
+   "seamlessly",
+   "empower",
+   "transformative",
+   "revolutionize",
+   "groundbreaking",
+   "foster",
+   "landscape",
+   "dive into",
+   "at the end of the day",
+   "it is worth noting that",
+   "in order to",
+   "utilize",
+   "a wide variety of",
+   "moving forward",
+   "tapestry",
+   "rich tapestry",
+   "realm",
+   "testament to",
+   "navigate (figurative)",
+   "crucial",
+   "pivotal",
+   "vital",
+   "boasts",
+   "plays a key role in",
+   "stands as",
+   "serves as",
+   "in the world of",
+   "in today's",
+   "when it comes to",
+   "orchestrate",
+   "synergize",
+   "paradigm shift",
+   "comprehensive",
+   "hand-made",
+   "hand-crafted",
+   "PCS \u2014 'clog-proof' / 'no clogging' (Moxi GO II: team rejected on record, 2026-04-22)",
+   "PCS \u2014 'no xylene' / 'no fume hood' as a standalone Singulator differentiator (de-emphasize; 10x solved it too \u2014 Anup, 2026-04-07)",
+   "PCS \u2014 '81% less hands-on time' / '86% fewer pipetting steps' (Singulator stats retired; use samples-per-hour/day framing \u2014 Anup 5/19)",
+   "PCS \u2014 '2 mg' as the FFPE input minimum (FFPE is measured in 50 \u00b5m curls/sections, not mg; 2 mg is the fresh/frozen floor only \u2014 Nabiha 2026-06-02)",
+   "PCS \u2014 'high viability' / '96% viability' applied to NUCLEI samples (nuclei lack membrane integrity by definition; viability is a cells-track claim only \u2014 Nabiha 2026-06-02)",
+   "PCS \u2014 naming Beth Israel or MD Anderson as a public reference account without explicit PCS sign-off (references being withdrawn / soft proof \u2014 singulator-audit 2026-06-15)"
+  ],
+  "_provenance": "headline_style + body_style + house AI-isms + structural bans from pipeline-skills/writing-standards/scientific-writing-style-guide.md (v6, 2026-06-22), read in full. Agency 'no eyebrow' standing rule. PCS-specific bans from the Singulator (2026-06-15) and Moxi GO II (2026-06-16) positioning audits with source transcripts named inline."
+ },
+ "_gaps": [
+  "imagery \u2014 PCS has NO art-directed imagery recipe (product photos + flat icons + data figures only); set as missing-placeholder, not invented. Decision needed: codify an AI-imagery recipe, or stay product-photo + data-figure.",
+  "logo clear-space, minimum size, and misuse/don'ts rules are unknown \u2014 no brand guideline source; ask PCS.",
+  "logo monochrome/black variant \u2014 none found in any source; confirm whether one is sanctioned.",
+  "RESOLVED 2026-06-26 (Anup): palette standardized to the SALES/MARKETING flyer palette. Documentation palette demoted to docs-only (colors._variants.documentation_system), Moxi = explicit sub-brand, tissue-guide web palette deprecated. MIGRATION TODO: re-skin the 13 technical-doc templates + the tissue-guide web page to the standard over time (cosmetic, low urgency).",
+  "PPTX theme: the flyers ship on the DEFAULT Microsoft Office theme (brand colours hard-coded per shape). ADDRESSED 2026-06-26 by the pptx-from-brand-config bridge (skills/brand-pptx-template), which bakes the PCS palette + fonts into the .pptx theme. TODO: re-issue the 3 flyers from the bridge template so editors inherit brand theme colours.",
+  "Kersey 2026 nuclei-integrity benchmark (~100% vs ~85% vs ~35%) \u2014 in the written positioning but cited in 0 of 19 transcripts; confirm if still active before using as an opening claim.",
+  "Numeric MSKCC vs gentleMACS UMI comparison \u2014 not sourced; only a directional VOC exists. Do not publish a number without a figure.",
+  "Miltenyi gentleMACS published fresh-tissue input minimum \u2014 '~20 mg' is qualitative framing, not a datasheet number; verify before a numeric comparison.",
+  "Moxi GO II has no finalized brand_proposition (category decision 'cell counter' vs 'benchtop cell analyzer' unresolved) and its hero specs (<2% CV, NIST beads, 7 lb, FCS 3.1), CAR-T concordance, and NPI cell-health index definition/citation are unsourced \u2014 draft separately once PCS supplies them."
+ ]
+}

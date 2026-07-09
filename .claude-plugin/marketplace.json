@@ -1,0 +1,14 @@
+{
+  "name": "anupparikh-skills",
+  "owner": {
+    "name": "Anup Parikh",
+    "email": "anup.parikh@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "deck-from-content",
+      "source": "./plugins/deck-from-content",
+      "description": "Content in, on-brand PowerPoint deck out. Renders slides on the PCS native branded template; agent supplies text and image paths only."
+    }
+  ]
+}

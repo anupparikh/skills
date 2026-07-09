@@ -1,0 +1,234 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "deck-content-spec-v0",
+  "title": "Deck content spec v0",
+  "description": "Brand-agnostic slide spec: the seam between content tasks and the deck engine (D1). Slides declare communicative intent (D2: cover/section/statement/evidence/enumerate + freeform escape); the designer layer maps intent to an on-brand layout. Nothing here may carry a color, font, coordinate, or layout name.",
+  "type": "object",
+  "required": ["meta", "slides"],
+  "additionalProperties": false,
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["title"],
+      "additionalProperties": false,
+      "properties": {
+        "title": { "type": "string" },
+        "footer": { "type": "string", "description": "Uniform footer text, every non-cover slide" },
+        "images_dir": { "type": "string", "description": "Base dir for relative image paths" }
+      }
+    },
+    "slides": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "oneOf": [
+          { "$ref": "#/$defs/cover" },
+          { "$ref": "#/$defs/section" },
+          { "$ref": "#/$defs/statement" },
+          { "$ref": "#/$defs/evidence" },
+          { "$ref": "#/$defs/enumerate" },
+          { "$ref": "#/$defs/freeform" }
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "cover": {
+      "type": "object",
+      "description": "Open the deck: what this is, for whom.",
+      "required": ["intent", "title"],
+      "additionalProperties": false,
+      "properties": {
+        "intent": { "const": "cover" },
+        "title": { "type": "string" },
+        "subtitle": { "type": "string" },
+        "tagline": { "type": "string" }
+      }
+    },
+    "section": {
+      "type": "object",
+      "description": "Mark a chapter boundary; reset the audience. A section carrying `contact` renders as the closing slide (a centered thank-you + contact card).",
+      "required": ["intent", "title"],
+      "additionalProperties": false,
+      "properties": {
+        "intent": { "const": "section" },
+        "title": { "type": "string" },
+        "kicker": { "type": "string" },
+        "contact": {
+          "type": "object",
+          "description": "Presence turns this section into the closing slide.",
+          "additionalProperties": false,
+          "properties": {
+            "name": { "type": "string" },
+            "detail": { "type": "string", "description": "e.g. title · email · phone" },
+            "website": { "type": "string" }
+          }
+        }
+      }
+    },
+    "statement": {
+      "type": "object",
+      "description": "Assert one claim and let it land. Attribution present = quote variant.",
+      "required": ["intent", "text"],
+      "additionalProperties": false,
+      "properties": {
+        "intent": { "const": "statement" },
+        "eyebrow": { "type": "string" },
+        "text": { "type": "string", "description": "The claim itself — the only mandatory content" },
+        "body": { "type": "string", "description": "One short elaborating paragraph, optional" },
+        "support": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Short reinforcing fragments (chips/callout material), not paragraphs"
+        },
+        "attribution": { "type": "string", "description": "Who said it — turns the statement into a quote" },
+        "source": { "type": "string", "description": "Footnote-grade provenance" }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "description": "Prove a point with material: study, figure, metric, findings. Which optional fields are present drives which layout the resolver picks — one intent, several renders.",
+      "required": ["intent", "title"],
+      "additionalProperties": false,
+      "properties": {
+        "intent": { "const": "evidence" },
+        "eyebrow": { "type": "string" },
+        "title": { "type": "string" },
+        "claim": { "type": "string", "description": "The takeaway sentence this evidence supports" },
+        "body": { "type": "string" },
+        "citation": {
+          "type": "object",
+          "required": ["ref"],
+          "additionalProperties": false,
+          "properties": {
+            "ref": { "type": "string" },
+            "doi": { "type": "string" },
+            "author": { "type": "string" }
+          }
+        },
+        "method": { "type": "array", "items": { "type": "string" } },
+        "challenge": {
+          "type": "object",
+          "required": ["points"],
+          "additionalProperties": false,
+          "properties": {
+            "title": { "type": "string" },
+            "points": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "figure": { "$ref": "#/$defs/figureRef" },
+        "stat": {
+          "type": "object",
+          "required": ["value"],
+          "additionalProperties": false,
+          "properties": {
+            "value": { "type": "string" },
+            "label": { "type": "string" }
+          }
+        },
+        "findings": { "type": "array", "items": { "type": "string" } },
+        "steps": { "type": "array", "items": { "$ref": "#/$defs/labeledItem" } },
+        "quote": { "$ref": "#/$defs/quote" },
+        "why": { "type": "string", "description": "Why this matters to the audience" },
+        "source": { "type": "string" }
+      }
+    },
+    "enumerate": {
+      "type": "object",
+      "description": "Lay out N coordinate things. Exactly one of items/groups/table. arrangement is a hint the resolver may override; 'parallel' is the compare fold (D2 watch item).",
+      "required": ["intent", "title"],
+      "additionalProperties": false,
+      "properties": {
+        "intent": { "const": "enumerate" },
+        "eyebrow": { "type": "string" },
+        "title": { "type": "string" },
+        "intro": { "type": "string" },
+        "arrangement": { "enum": ["sequential", "parallel", "indexed", "tabular", "grid"] },
+        "items": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/labeledItem" } },
+        "groups": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["label", "items"],
+            "additionalProperties": false,
+            "properties": {
+              "label": { "type": "string" },
+              "items": { "type": "array", "items": { "$ref": "#/$defs/labeledItem" } }
+            }
+          }
+        },
+        "table": {
+          "type": "object",
+          "required": ["columns", "rows"],
+          "additionalProperties": false,
+          "properties": {
+            "columns": { "type": "array", "items": { "type": "string" } },
+            "rows": { "type": "array", "items": { "type": "array", "items": { "type": "string" } } }
+          }
+        },
+        "quote": { "$ref": "#/$defs/quote" },
+        "source": { "type": "string" }
+      },
+      "oneOf": [
+        { "required": ["items"] },
+        { "required": ["groups"] },
+        { "required": ["table"] }
+      ]
+    },
+    "freeform": {
+      "type": "object",
+      "description": "Raw-grid escape hatch (D1 sub-decision): compose() block dicts pass through untouched. A spec type, never a side door — still linted like everything else.",
+      "required": ["intent", "blocks"],
+      "additionalProperties": false,
+      "properties": {
+        "intent": { "const": "freeform" },
+        "title": { "type": "string" },
+        "eyebrow": { "type": "string" },
+        "dark": { "type": "boolean" },
+        "why": { "type": "string" },
+        "blocks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["type"],
+            "properties": { "type": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "labeledItem": {
+      "type": "object",
+      "description": "One enumerable thing. label+desc = step/agenda row; value+label = stat; label+points = parallel/comparison column; label+points+warn = a 'how they do it today' option card (strengths + one caution); desc alone = plain bullet.",
+      "additionalProperties": false,
+      "properties": {
+        "label": { "type": "string" },
+        "desc": { "type": "string" },
+        "value": { "type": "string" },
+        "points": { "type": "array", "items": { "type": "string" } },
+        "warn": { "type": "string", "description": "One caution/limitation for a comparison option card (rendered as the ⚠ footer). Text only — never a color." },
+        "tone": { "enum": ["neutral", "positive", "negative"], "description": "Semantic tone only — never a color" }
+      },
+      "minProperties": 1
+    },
+    "figureRef": {
+      "type": "object",
+      "required": ["image"],
+      "additionalProperties": false,
+      "properties": {
+        "image": { "type": "string" },
+        "caption": { "type": "string" }
+      }
+    },
+    "quote": {
+      "type": "object",
+      "required": ["text"],
+      "additionalProperties": false,
+      "properties": {
+        "text": { "type": "string" },
+        "attrib": { "type": "string" }
+      }
+    }
+  }
+}

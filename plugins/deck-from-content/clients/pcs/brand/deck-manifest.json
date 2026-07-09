@@ -1,0 +1,24 @@
+{
+  "dark_canvas_layout": "Blank",
+  "logo": {
+    "dark_position": "top-right",
+    "dark_size_in": 0.38,
+    "keepout_in": 1.2
+  },
+  "footer_text": "\u00a9 2026 Precision Cell Systems \u00b7 For research use only",
+  "title_sizes": {
+    "problem_flow": 30,
+    "study_intro": 25,
+    "dark": 22,
+    "statement": 32,
+    "compose": 24
+  },
+  "colors": {
+    "muted": "#C8D8EC",
+    "page_number": "#9AA5B1",
+    "quote_on_light": "#4A5568",
+    "quote_on_dark": "#C8D8EC",
+    "warn": "#FD7E14",
+    "warn_tint": "#FBEAEC"
+  }
+}

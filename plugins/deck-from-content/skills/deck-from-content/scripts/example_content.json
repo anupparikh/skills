@@ -1,0 +1,196 @@
+{
+  "slides": [
+    {
+      "type": "cover",
+      "title": "Why researchers reach for the Singulator.",
+      "subtitle": "Nine peer-reviewed studies where the Singulator beat the alternatives on quality, or did what manual and competing methods could not.",
+      "kicker": "Selected for differentiation vs competitors + only-possible-with-Singulator · every quote and number verbatim from the paper"
+    },
+    {
+      "type": "problem",
+      "eyebrow": "THE PROBLEM THESE PAPERS ANSWER",
+      "title": "Sample prep is part of the biology.",
+      "body": "If dissociation changes which cells survive — or what they express — the sequencing result isn't only measuring the tissue. It's measuring the prep. Manual, hands-dependent isolation can manufacture signal you'll read as biology.",
+      "chips": ["Variable manual prep", "Damaged nuclei · ambient RNA", "Artifacts that mimic biology", "False conclusions"],
+      "callout": "The answer: cold, automated, protocol-controlled isolation removes the uncontrolled variables — so the readout reflects the sample, not the method.",
+      "footnote": "The fifteen peer-reviewed studies that follow show it two ways: the Singulator beats manual head-to-head, or it does what manual prep cannot."
+    },
+    {
+      "type": "glance",
+      "title": "The fifteen studies, at a glance.",
+      "groups": [
+        {
+          "label": "DIFFERENTIATION VS COMPETITORS — BEATS MANUAL HEAD-TO-HEAD",
+          "items": [
+            {"cite": "1.  Kersey et al. · Cell Reports Methods 2026 · mouse brain", "desc": "Beat sucrose-gradient and spin-column prep head-to-head: lowest mito/ribosomal contamination, most consistent QC."},
+            {"cite": "2.  Becker et al. · Nature Genetics 2022 · human colon", "desc": "Singulator scATAC matched manual douncing on paired biopsies — close enough to pool both preps into one atlas."},
+            {"cite": "3.  Perez et al. · Aging 2022 · human muscle", "desc": "Low-artifact prep; 143,051 nuclei surfaced a senescent myonuclei population seen only in aged muscle."},
+            {"cite": "4.  Jessa et al. · Nature Genetics 2022 · pediatric glioma", "desc": "Multiome on 5–20 mg frozen tumor preserved chromatin well enough to fingerprint each glioma's cell of origin."},
+            {"cite": "5.  Dugan et al. · bioRxiv 2024 · human brain", "desc": "295,299 nuclei from 76 brains on one protocol; the signal survived an explicit prep-quality artifact test."}
+          ]
+        },
+        {
+          "label": "ONLY POSSIBLE WITH THE SINGULATOR — DOES WHAT MANUAL CAN'T",
+          "items": [
+            {"cite": "6.  Fisher et al. · Current Protocols 2023 · cervix / uterus", "desc": "Manual dissociation failed; the Singulator 100 delivered Multiome-ready nuclei, adopted as a named HuBMAP method."},
+            {"cite": "7.  Khazaei et al. · Cell 2023 · mouse brain", "desc": "One automated prep fed paired snRNA-seq + snATAC-seq — multiome, the most prep-sensitive assay, off a single isolation."},
+            {"cite": "8.  Haviv et al. · Nature Biotechnology 2024 · FFPE brain", "desc": "A prototype S200+ automated FFPE deparaffinization + nuclei isolation, anchoring Xenium spatial to an snRNA-seq reference."},
+            {"cite": "9.  Pan et al. · JCI Insight 2025 · glioblastoma", "desc": "High-quality snRNA-seq from just 10–20 µg of frozen tumor; 21,959 nuclei resolved MEK-driven MES-like states."},
+            {"cite": "10.  Zhang et al. · Nature Genetics 2026 · pancreas (needle biopsy)", "desc": "137,491 nuclei from 24 neoplasms — including routine 22G/18G needle-biopsy cores too small to see by eye."},
+            {"cite": "11.  Dermawan et al. · Science Advances 2026 · pediatric sarcoma", "desc": "177,051 nuclei from 6 patients of an ultrarare sarcoma — only two cases had ever been single-cell profiled."},
+            {"cite": "12.  Blattman et al. · bioRxiv 2026 · FFPE glioblastoma", "desc": "Automated S200+/NIC+ prep recovered 11,192 nuclei from archival FFPE GBM, feeding GIFT genotyping at >99% accuracy."},
+            {"cite": "13.  Abay et al. · Nature Genetics 2025 · FFPE glioblastoma", "desc": "Human FFPE tumor blocks opened to PERFF-seq rare-cell profiling via automated S200+ deparaffinization."},
+            {"cite": "14.  Zhao et al. · Nature Communications 2025 · meningioma", "desc": "Same prep feeds single-cell DNA: paired-meningioma nuclei drove PTA whole-genome sequencing for clonal-evolution CNAs."},
+            {"cite": "15.  Zhang et al. · Nature Communications 2023 · pancreas (automation)", "desc": "Automated under-30-min workflow held up on 38 low-purity PDAC samples — down to one with just 479 captured nuclei."}
+          ]
+        }
+      ]
+    },
+    {
+      "type": "study_intro",
+      "eyebrow": "DIFFERENTIATION · HEAD-TO-HEAD QUALITY",
+      "title": "Head-to-head, the Singulator beats manual centrifugation and spin-column on data quality.",
+      "citation": {"ref": "Kersey, Acri, Dabin, et al. Comparative analysis of nuclei isolation methods for brain single-nucleus RNA sequencing. Cell Reports Methods, 2026.", "doi": "doi.org/10.1016/j.crmeth.2026.101337", "author": "Jungsu Kim · Indiana University School of Medicine"},
+      "method": ["Mouse", "Brain cortex", "Fresh-frozen", "nuclei", "10x 3'", "Standard Nuclei"],
+      "challenge": [
+        "Three nuclei-isolation methods compared head-to-head on frozen mouse brain cortex: sucrose-gradient centrifugation, spin-column (10x kit), and the Singulator 100.",
+        "Built to settle how isolation protocol choice shapes snRNA-seq data quality and reproducibility.",
+        "Brain chosen because microglia readily pick up handling artifacts."
+      ]
+    },
+    {
+      "type": "study_detail",
+      "title": "Head-to-head, the Singulator beats manual centrifugation and spin-column on data quality.",
+      "figure": {"image": "s05_fig1.jpg", "caption": "Figure 3 · QC metrics across the three protocols. Machine-assisted (Singulator, olive) shows the lowest mitochondrial and ribosomal reads (D, E)."},
+      "quote": {"text": "“The machine-assisted platform provides an automated approach that reduces processing time and minimizes sample-to-sample and person-to-person variability.”", "attrib": "— the authors, in the paper"},
+      "findings": [
+        "Singulator gave the highest overall data quality: the lowest mitochondrial and ribosomal RNA contamination of the three methods.",
+        "It was the most consistent across samples in doublet rate and ambient RNA, where the other two varied widely.",
+        "Centrifugation yielded the most nuclei but showed pronounced sample-to-sample heterogeneity."
+      ],
+      "why": "Why it matters:  Direct empirical evidence, in print, that the Singulator out-performs manual centrifugation and spin-column isolation on data quality and cross-sample consistency."
+    },
+    {
+      "type": "metric_table",
+      "eyebrow": "KERSEY ET AL. · FIGURE 3 · QUALITY-CONTROL METRICS",
+      "title": "Every contaminating read is sequencing budget you can't use.",
+      "columns": ["Metric · Figure 3", "Centrifugation", "Column (10x kit)", "Singulator · machine-assisted"],
+      "rows": [
+        ["Ambient RNA — SoupX rho (B)", "0.07–0.17 · variable", "> 0.25 · ~2× higher", "~0.14 · consistent"],
+        ["Mitochondrial reads (D)", "1–3%", "2–4%", "< 0.5%"],
+        ["Ribosomal reads (E)", "minimal", "up to 0.036%", "< 0.03%"],
+        ["Doublet rate (A)", "4.5–5.5%", "3.2–5.7% · variable", "4.5–5.5% · consistent"]
+      ],
+      "quote": "“Valuable samples and substantial sequencing costs are not wasted due to technical artifacts or contamination by ambient RNAs that necessitate resequencing.”  — Kersey et al.",
+      "footnote": "Mitochondrial, ribosomal, and ambient reads carry no nuclear signal — every one is sequencing you paid for and discard. The machine-assisted prep minimizes all three, with the least sample-to-sample variation."
+    },
+    {
+      "type": "compare",
+      "eyebrow": "KERSEY ET AL. · FIGURE 4 · BIOLOGICAL INTERPRETATION",
+      "title": "Healthy mice, no disease — yet two methods invent a disease signature.",
+      "intro": "The mice lacked disease pathology, so a disease-associated-microglia (DAM) signature should be near zero. UCell cell-state scores: panel 4L = homeostatic microglia, 4M = disease-associated microglia.",
+      "left": {"tone": "good", "label": "MACHINE-ASSISTED · SINGULATOR  —  Fig 4L", "body": "Preserved the strongest homeostatic-microglia markers (C1qa, Hexb, Siglech, Tmem119) and the most accurate transcriptional signature. The DAM signal stays near zero — matching the true biology."},
+      "right": {"tone": "warn", "label": "CENTRIFUGATION & COLUMN  —  Fig 4M", "body": "Both showed an elevated disease-associated-microglia (DAM) signature in disease-free tissue — a technical artifact of the prep, not real biology."},
+      "quote": "“Because the mice used in this study lacked disease pathology, we expected minimal expression of DAM-related genes. However, both the centrifugation- and column-based methods resulted in elevated DAM signatures, suggesting that technical artifacts, rather than true biological signals, may drive these transcriptional changes.”  — Kersey et al.",
+      "footnote": "Prep choice flips the conclusion. Only the machine-assisted method matched ground truth (4L); the others manufactured a neuroinflammatory signal (4M) that could misdirect therapeutic development."
+    },
+    {
+      "type": "study_intro",
+      "eyebrow": "DIFFERENTIATION · MATCHES THE MANUAL GOLD STANDARD",
+      "title": "Singulator nuclei match hand-douncing, on the very same clinical biopsies.",
+      "citation": {"ref": "Becker, Nevins, Chen, et al. Single-cell analyses define a continuum of cell state and composition changes in the malignant transformation of polyps to colorectal cancer. Nature Genetics, 2022.", "doi": "nature.com/articles/s41588-022-01088-x", "author": "William J. Greenleaf · Stanford"},
+      "method": ["Human", "Colon", "Fresh-frozen", "nuclei", "10x scATAC", "Extended Nuclei"],
+      "challenge": [
+        "Stanford built a single-cell atlas of the normal-to-polyp-to-cancer continuum from clinical colorectal specimens.",
+        "Four samples had nuclei isolated on the S2 Singulator in parallel with manual OmniATAC douncing on the same tissue, for a direct scATAC method comparison.",
+        "Compared at the scATAC UMAP, epithelial cell-type composition, and differential-peak levels across the matched samples."
+      ]
+    },
+    {
+      "type": "study_detail",
+      "title": "Singulator nuclei match hand-douncing, on the very same clinical biopsies.",
+      "figure": {"image": "s09_fig1.jpg", "caption": "Figure 1 · Single-cell atlas of colorectal cancer development, built from Singulator- and dounce-prepped nuclei."},
+      "stat": {"big": "On par", "body": "with hand-douncing: Singulator and dounce scATAC co-embedded by disease state with matching epithelial cell-type fractions on 4 paired colorectal biopsies (Fig. S1J-L)."},
+      "findings": [
+        "Singulator and dounce scATAC showed close agreement in UMAP structure and epithelial cell-type fractions on the matched samples.",
+        "Both recovered consistent epithelial subtype fractions across sections of the same polyp.",
+        "Differential peaks separated sections of the same polyp, not the two prep methods (Fig. S1L)."
+      ],
+      "why": "Why it matters:  On precious clinical GI specimens, the Singulator's scATAC nuclei hold up against the manual dounce gold standard, enough that the authors pooled both preps into one atlas."
+    },
+    {
+      "type": "study_intro",
+      "eyebrow": "DIFFERENTIATION · ARTIFACT-FREE VS CONVENTIONAL PREP",
+      "title": "Chosen over conventional prep so the aging signal is biology, not handling.",
+      "citation": {"ref": "Perez, Ciotlos, McGirr, et al. Single nuclei profiling identifies cell specific markers of skeletal muscle aging, frailty, and senescence. Aging, 2022.", "doi": "doi.org/10.18632/aging.204435", "author": "Simon Melov · Buck Institute for Research on Aging"},
+      "method": ["Human", "Skeletal muscle", "Fresh-frozen", "nuclei", "10x 5'", "Standard Nuclei"],
+      "challenge": [
+        "Bulk RNA-seq, snRNA-seq, and spatial profiling of an irreplaceable cohort of young, aged, and frail human muscle biopsies.",
+        "Authors state they chose the Singulator specifically to minimize prep-induced gene-expression changes versus conventional extraction.",
+        "Nuclei isolated with S2 cold-buffer protocol; 143,051 nuclei passed QC."
+      ]
+    },
+    {
+      "type": "study_detail",
+      "title": "Chosen over conventional prep so the aging signal is biology, not handling.",
+      "figure": {"image": "s11_fig1.jpg", "caption": "Figure 2 · snRNA-seq resolves 7 muscle cell-type clusters, including the aged-only senescent myonuclei population."},
+      "stat": {"big": "143,051", "body": "nuclei from snap-frozen human muscle; the low-artifact prep surfaced a senescent myonuclei population present only in aged muscle."},
+      "findings": [
+        "A CDKN1A/MYH8-positive senescent myonuclei cluster appeared only in older subjects, validated against drug-induced senescence in culture.",
+        "Satellite-cell frequency declined ~20-40% with age; PDK4-positive nuclei rose from 15% to 43%.",
+        "Clean prep was the prerequisite: the aging signature had to be real biology, not an extraction stress response."
+      ],
+      "why": "Why it matters:  The Singulator was selected expressly to keep extraction from manufacturing a false signal, the core reproducibility argument, on an aging cohort that cannot be re-collected."
+    },
+    {
+      "type": "study_intro",
+      "eyebrow": "DIFFERENTIATION · PRESERVES CHROMATIN, NOT JUST RNA",
+      "title": "Nuclei clean enough to fingerprint a tumor's cell of origin.",
+      "citation": {"ref": "Jessa et al. K27M in canonical and noncanonical H3 variants occurs in distinct oligodendroglial cell lineages in brain midline gliomas. Nature Genetics, 2022.", "doi": "doi.org/10.1038/s41588-022-01205-w", "author": "Claudia L. Kleinman · McGill University"},
+      "method": ["Human", "Pediatric glioma (brain)", "Fresh-frozen", "nuclei", "10x Multiome", "Extended Nuclei (S100)"],
+      "challenge": [
+        "K27M-mutant pediatric midline gliomas (pons, thalamus, spinal cord) profiled to trace their cell of origin.",
+        "5–20 mg of frozen tumor per patient isolated on the Singulator S100 (extended nuclei) for paired snRNA-seq + scATAC-seq.",
+        "Lineage read from chromatin accessibility at developmental enhancers — a signal that survives only if the prep preserves chromatin."
+      ]
+    },
+    {
+      "type": "study_detail",
+      "title": "Nuclei clean enough to fingerprint a tumor's cell of origin.",
+      "steps": ["5–20 mg frozen pediatric glioma", "Singulator S100 — extended nuclei", "10x Multiome (snRNA + scATAC)", "Chromatin lineage-of-origin fingerprint"],
+      "caption": "Figure 5 · chromatin-accessibility lineage fingerprints in K27M glioma (Singulator multiome nuclei).",
+      "stat": {"big": "chromatin-grade", "size": 26, "body": "fidelity: Singulator nuclei from 5–20 mg frozen pediatric glioma preserved chromatin accessibility well enough to fingerprint each subtype's embryonic cell of origin (43 patients; 116 tumors integrated)."},
+      "findings": [
+        "Paired snRNA-seq + scATAC-seq came off one automated nuclei prep per 5–20 mg tumor.",
+        "Quote: “K27M-mutant gliomas faithfully maintain chromatin configuration at developmental genes consistent with anatomically distinct oligodendrocyte-precursor-like cells.”",
+        "Chromatin tracks at developmental enhancers mapped each glioma subtype to its distinct OPC-like lineage."
+      ],
+      "why": "Why it matters:  Preserving chromatin — not just RNA — is the harder bar; clearing it on milligram-scale frozen tumor, in Nature Genetics, proves the prep doesn't distort the epigenome."
+    },
+    {
+      "type": "study_intro",
+      "eyebrow": "DIFFERENTIATION · THE SIGNAL SURVIVES AN ARTIFACT TEST",
+      "title": "76 brains, one protocol — and the biology survives a QC challenge.",
+      "citation": {"ref": "Dugan et al. High-risk neuropsychiatric copy number variants are associated with convergent transcriptomic changes in human brain cells. bioRxiv, 2024.", "doi": "doi.org/10.1101/2024.09.19.613680", "author": "Francis J. McMahon / Anton Schulmann · NIMH"},
+      "method": ["Human", "Brain (DLPFC, ACC)", "Fresh-frozen", "nuclei", "10x 3'", "Extended Nuclei (S100)"],
+      "challenge": [
+        "76 frozen post-mortem brain samples across 9 high-risk neuropsychiatric CNV loci, matched to controls.",
+        "All 76 isolated on the Singulator 100 — one consistent protocol — yielding 295,299 nuclei across 9 cell types.",
+        "A convergent mitochondrial (OXPHOS) signal had to be shown to be biology, not a prep batch effect."
+      ]
+    },
+    {
+      "type": "study_detail",
+      "title": "76 brains, one protocol — and the biology survives a QC challenge.",
+      "steps": ["76 frozen brains · 9 CNV loci", "Singulator 100 — one protocol", "295,299 nuclei · 9 cell types", "OXPHOS signal · survives QC model"],
+      "caption": "Figure 4 · convergent OXPHOS disruption across 9 CNVs (Singulator-isolated nuclei).",
+      "stat": {"big": "295,299", "body": "nuclei from 76 frozen brains on one protocol; a convergent OXPHOS signal held across 9 CNVs even after modeling prep-quality covariates."},
+      "findings": [
+        "One automated protocol across 76 samples made a 9-CNV cross-comparison valid — consistent prep, not batch noise.",
+        "Quote: “…the OXPHOS signal was not driven by quality-related variables.”",
+        "The authors ran an explicit quality-covariate model; the biological finding held unchanged."
+      ],
+      "why": "Why it matters:  The one study here that explicitly tests whether the result is a prep artifact — and proves it isn't. Consistent automated prep is what made batch effects detectable and excludable."
+    }
+  ]
+}
